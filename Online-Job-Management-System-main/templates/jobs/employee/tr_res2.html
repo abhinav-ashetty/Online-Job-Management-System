@@ -1,0 +1,183 @@
+{% comment %} {% extends 'base.html' %}
+{% block content %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Template</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      background: #fff;
+      display: flex;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .left {
+      background-color: #2c2e3e;
+      color: white;
+      width: 35%;
+      padding: 20px;
+      position: relative;
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px auto;
+      border: 3px solid #fff;
+    }
+
+    .section-title {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-top: 30px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    .left ul {
+      padding-left: 20px;
+    }
+
+    .right {
+      width: 65%;
+      padding: 30px;
+    }
+
+    .name {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .position {
+      color: #4794a7;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .contact-info, .section {
+      margin-bottom: 20px;
+    }
+
+    .contact-info div {
+      margin: 5px 0;
+    }
+
+    input[type="file"] {
+      margin: 10px auto;
+      display: block;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      background-color: #4794a7;
+      border: none;
+      color: white;
+      font-size: 1em;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <input type="file" accept="image/*" onchange="loadImage(event)">
+  <button onclick="downloadResume()">Download Resume</button>
+
+  <div class="container" id="resume">
+    <div class="left">
+      <img id="photo" class="profile-pic" src="/mnt/data/image.png" alt="Profile Photo">
+      
+      <div class="section-title">SKILLS</div>
+      <ul>
+        <li>{{user.skills}}</li>
+      </ul>
+
+      <div class="section-title">EDUCATION</div>
+      <p>{{ user.education}}</p>
+
+      <div class="section-title">LANGUAGES</div>
+      <ul>
+        <li>{{ user.languages }}</li>
+      </ul>
+
+      <div class="section-title">INTERESTS</div>
+      <ul>
+        <li>{{ user.interests }}</li>
+      </ul>
+    </div>
+
+    <div class="right">
+      <div class="name">{{ user.first_name }} {{ user.last_name }}</div>
+      <div class="position">Sales Associate</div>
+
+      <p>
+        Accomplished professional with 8+ years of dynamic sales experience. Proven ability to enhance customer experience and drive growth.
+      </p>
+
+      <div class="contact-info">
+        <div>Email: {{ user.email }}</div>
+        <div>Phone: {{ user.phone }}</div>
+        <div>Location: {{ user.location }}</div>
+        <div>LinkedIn: linkedin.com/in/{{ user.first_name }}</div>
+      </div>
+
+      <div class="section">
+        <h3>WORK EXPERIENCE</h3>
+        <b>Sales Associate - ShoPerfect Deluxe Mall</b> <br>
+        <small>Nov 2018 - Present | {{ user.location }}</small>
+        <ul>
+          <li> {{ user.experience }}</li>
+        </ul>
+
+        <b>Retail Sales Associate - Storefront Sports</b><br>
+        <small>Jan 2015 - Oct 2018 | Auburn, AL</small>
+        <ul>
+          <li>{{ user.experience }}</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h3>CONFERENCES & COURSES</h3>
+        <ul>
+          <li>Sales Training for High Performing Team – Coursera</li>
+          <li>Sales Management – ShoPerfect Deluxe Mall</li>
+          <li>Practical Sales Techniques – Udemy</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- html2pdf.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+  <script>
+    function loadImage(event) {
+      const output = document.getElementById('photo');
+      output.src = URL.createObjectURL(event.target.files[0]);
+    }
+
+    function downloadResume() {
+      const element = document.getElementById('resume');
+      html2pdf().from(element).save('Frank_Graham_Resume.pdf');
+    }
+  </script>
+
+</body>
+</html>
+{% comment %} {% endblock %} {% endcomment %}
